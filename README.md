@@ -36,9 +36,13 @@ Do NOT put a `service_role` or secret key in this project.
 
 For real user login, do not store passwords in `Clevent_Users`. Use Supabase Auth and keep only profile/role information in the table.
 
-## Important: ID generation
+## Manual ID entry
 
-The Add operation omits `id` and expects Postgres to generate it automatically. If your current `id` column does not have an Identity/default, configure it in Supabase before testing Add.
+When adding a new person, the form now requires you to enter the `id` manually. The app inserts that exact ID into `Clevent_Users`.
+
+When editing an existing person, the ID is shown but locked so it cannot accidentally be changed.
+
+The ID must be a positive integer and must be unique in Supabase.
 
 ## GitHub Pages
 

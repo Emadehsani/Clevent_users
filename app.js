@@ -92,6 +92,7 @@ function openPersonModal(person = null) {
   modal.setAttribute("aria-hidden", "false");
   modalTitle.textContent = person ? "ویرایش پرسنل" : "افزودن پرسنل";
   personId.value = person?.id ?? "";
+  personId.disabled = Boolean(person);
   nameInput.value = person?.name ?? "";
   positionInput.value = person?.position ?? "";
   passwordInput.value = person?.password ?? "";
@@ -103,6 +104,7 @@ function closePersonModal() {
   modal.setAttribute("aria-hidden", "true");
   form.reset();
   personId.value = "";
+  personId.disabled = false;
 }
 
 function openDeleteModal(person) {
@@ -140,14 +142,18 @@ body.addEventListener("click", event => {
 form.addEventListener("submit", async event => {
   event.preventDefault();
 
-  const id = personId.value.trim();
+  const idRaw = personId.value.trim();
   const name = nameInput.value.trim();
   const position = positionInput.value.trim();
   const passwordRaw = passwordInput.value.trim();
 
-  if (!name || !position) return showMessage("نام و سمت الزامی هستند.", true);
+  if (!idRaw || !name || !position) return showMessage("شناسه، نام و سمت الزامی هستند.", true);
+
+  const id = Number(idRaw);
+  if (!Number.isSafeInteger(id) || id < 1) return showMessage("شناسه باید یک عدد صحیح مثبت باشد.", true);
 
   const payload = {
+    id,
     name,
     position,
     password: passwordRaw === "" ? null : Number(passwordRaw)
@@ -158,11 +164,15 @@ form.addEventListener("submit", async event => {
   saveBtn.textContent = "در حال ذخیره...";
 
   let result;
-  if (id) {
-    result = await db.from(TABLE_NAME).update(payload).eq("id", id);
+  const existing = people.find(p => String(p.id) === String(id));
+
+  if (existing) {
+    result = await db.from(TABLE_NAME).update({
+      name: payload.name,
+      position: payload.position,
+      password: payload.password
+    }).eq("id", id);
   } else {
-    // Your current table uses id as the identifier. For a new record, ask Postgres
-    // to generate it only if the column has an identity/default configured.
     result = await db.from(TABLE_NAME).insert(payload);
   }
 
@@ -175,7 +185,7 @@ form.addEventListener("submit", async event => {
   }
 
   closePersonModal();
-  showMessage(id ? "اطلاعات با موفقیت ویرایش شد." : "پرسنل جدید با موفقیت اضافه شد.");
+  showMessage(existing ? "اطلاعات با موفقیت ویرایش شد." : "پرسنل جدید با موفقیت اضافه شد.");
   await loadPeople();
 });
 

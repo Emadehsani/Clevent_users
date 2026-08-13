@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>مدیریت پرسنل</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css">
   <link rel="stylesheet" href="style.css" />
@@ -11,9 +11,7 @@
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <div class="eyebrow">CLEVENT • مدیریت سیستم</div>
-        <h1>مدیریت پرسنل</h1>
-        <p>افزودن، ویرایش و حذف اعضای تیم</p>
+                <h1>مدیریت پرسنل</h1>
       </div>
       <button id="addBtn" class="btn btn-primary">+ افزودن پرسنل</button>
     </header>
@@ -74,7 +72,11 @@
       </div>
 
       <form id="personForm">
-        <input id="personId" type="hidden" />
+        <label>
+          شناسه پرسنل
+          <input id="personId" type="number" min="1" step="1" required placeholder="مثلاً 1001" />
+          <small>شناسه را هنگام افزودن پرسنل خودتان وارد کنید. در حالت ویرایش قابل تغییر نیست.</small>
+        </label>
         <label>
           نام و نام خانوادگی
           <input id="name" required maxlength="100" placeholder="مثلاً علی رضایی" />

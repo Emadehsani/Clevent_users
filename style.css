@@ -100,3 +100,18 @@ small { color:var(--muted); font-size:10px; line-height:1.7; }
   .panel-head { align-items:stretch; flex-direction:column; }
   .search-wrap { width:100%; }
 }
+/* Mobile touch/zoom behavior */
+html, body {
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+}
+
+button,
+.btn,
+.action,
+.icon-btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
