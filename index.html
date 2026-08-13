@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مدیریت پرسنل</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">CLEVENT • مدیریت سیستم</div>
+        <h1>مدیریت پرسنل</h1>
+        <p>افزودن، ویرایش و حذف اعضای تیم</p>
+      </div>
+      <button id="addBtn" class="btn btn-primary">+ افزودن پرسنل</button>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card">
+        <span>تعداد پرسنل</span>
+        <strong id="count">—</strong>
+      </div>
+      <div class="stat-card">
+        <span>وضعیت اتصال</span>
+        <strong id="connection" class="status"><i></i> در حال بررسی...</strong>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>فهرست پرسنل</h2>
+          <span id="lastUpdate">—</span>
+        </div>
+        <div class="search-wrap">
+          <span>⌕</span>
+          <input id="search" type="search" placeholder="جستجو بر اساس نام یا سمت..." />
+        </div>
+      </div>
+
+      <div id="message" class="message hidden"></div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>شناسه</th>
+              <th>نام و نام خانوادگی</th>
+              <th>سمت</th>
+              <th>رمز</th>
+              <th>عملیات</th>
+            </tr>
+          </thead>
+          <tbody id="peopleBody">
+            <tr><td colspan="5" class="empty">در حال دریافت اطلاعات...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <span class="eyebrow">اطلاعات پرسنل</span>
+          <h3 id="modalTitle">افزودن پرسنل</h3>
+        </div>
+        <button id="closeModal" class="icon-btn" aria-label="بستن">×</button>
+      </div>
+
+      <form id="personForm">
+        <input id="personId" type="hidden" />
+        <label>
+          نام و نام خانوادگی
+          <input id="name" required maxlength="100" placeholder="مثلاً علی رضایی" />
+        </label>
+        <label>
+          سمت
+          <input id="position" required maxlength="100" placeholder="مثلاً مدیر تولید" />
+        </label>
+        <label>
+          رمز
+          <input id="password" inputmode="numeric" maxlength="20" placeholder="اختیاری" />
+          <small>این فیلد فقط مطابق ستون فعلی password در جدول شماست. برای ورود واقعی بهتر است Supabase Auth استفاده شود.</small>
+        </label>
+        <div class="form-actions">
+          <button type="button" id="cancelBtn" class="btn btn-ghost">انصراف</button>
+          <button type="submit" id="saveBtn" class="btn btn-primary">ذخیره</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card confirm-card">
+      <span class="danger-mark">!</span>
+      <h3>حذف پرسنل</h3>
+      <p id="confirmText">آیا از حذف این شخص مطمئن هستید؟</p>
+      <div class="form-actions">
+        <button id="deleteCancel" class="btn btn-ghost">انصراف</button>
+        <button id="deleteConfirm" class="btn btn-danger">حذف</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
